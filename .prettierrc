@@ -13,6 +13,5 @@
         "parser": "svelte"
       }
     }
-  ],
-  "tabWidth": 2
+  ]
 }
