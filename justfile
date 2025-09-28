@@ -33,9 +33,9 @@ fmt:
 lint:
     # TODO
 
-# svelte-check
+# Check svelte
 check:
-    # TODO
+    bun run check
 
 ###################################
 # Run
@@ -69,6 +69,10 @@ clean:
     rm bun.lock
     bun pm cache rm
     bun i
+
+# Detect unused dependencies
+knip:
+    bunx knip
 
 ###################################
 # Build

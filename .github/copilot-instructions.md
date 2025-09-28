@@ -43,6 +43,8 @@
 
 必ず，svelte 5 を使用する．
 svelte 4 は使用しない．
+必ず，TypeScript を使用する．
+JavaScript は使用しない．
 
 ## CSS
 
