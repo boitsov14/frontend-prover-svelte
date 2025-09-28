@@ -5,7 +5,12 @@
   ],
   "compilerOptions": {
     "target": "ESNext",
-    "types": ["svelte", "vite/client"]
+    "types": [
+      "svelte",
+      "vite/client"
+    ]
   },
-  "include": ["src"]
+  "include": [
+    "src"
+  ]
 }
