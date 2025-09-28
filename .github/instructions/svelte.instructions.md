@@ -1,5 +1,5 @@
 ---
-applyTo: "src/**/*.svelte"
+applyTo: 'src/**/*.svelte'
 ---
 
 ## Svelte
@@ -21,29 +21,32 @@ You **MUST** use the Svelte 5 API unless explicitly tasked to write Svelte 4 syn
 ### $state
 
 - `$state` creates reactive variables that update the UI automatically. For example:
+
   ```svelte
   <script>
-    let count = $state(0);
+    let count = $state(0)
   </script>
+
   <button onclick={() => count++}>Clicked: {count}</button>
   ```
+
 - Do **NOT** complicate state management by wrapping it in custom objects; instead, update reactive variables directly.  
   _In Svelte 4, you created state with let, e.g. `let count = 0;`, now use the $state rune, e.g. `let count = $state(0);`._
 - Arrays and objects become deeply reactive proxies. For example:
   ```js
-  let todos = $state([{ done: false, text: 'add more todos' }]);
-  todos[0].done = !todos[0].done;
+  let todos = $state([{ done: false, text: 'add more todos' }])
+  todos[0].done = !todos[0].done
   ```
 - Do **NOT** destructure reactive proxies (e.g., `let { done } = todos[0];`), as this breaks reactivity; instead, access properties directly.
 - Use `$state` in class fields for reactive properties. For example:
   ```js
   class Todo {
-  	done = $state(false);
-  	text = $state('');
-  	reset = () => {
-  		this.text = '';
-  		this.done = false;
-  	};
+    done = $state(false)
+    text = $state('')
+    reset = () => {
+      this.text = ''
+      this.done = false
+    }
   }
   ```
 
@@ -52,10 +55,10 @@ You **MUST** use the Svelte 5 API unless explicitly tasked to write Svelte 4 syn
 - `$state.raw` creates shallow state where mutations are not tracked. For example:
 
 ```js
-let person = $state.raw({ name: 'Heraclitus', age: 49 });
+let person = $state.raw({ name: 'Heraclitus', age: 49 })
 // Instead of mutating:
 // person.age += 1;  // NO effect
-person = { name: 'Heraclitus', age: 50 }; // Correct way to update
+person = { name: 'Heraclitus', age: 50 } // Correct way to update
 ```
 
 - Do **NOT** attempt to mutate properties on raw state; instead, reassign the entire object to trigger updates.
@@ -66,9 +69,9 @@ person = { name: 'Heraclitus', age: 50 }; // Correct way to update
 
 ```svelte
 <script>
-  let counter = $state({ count: 0 });
+  let counter = $state({ count: 0 })
   function logSnapshot() {
-    console.log($state.snapshot(counter));
+    console.log($state.snapshot(counter))
   }
 </script>
 ```
@@ -80,15 +83,15 @@ person = { name: 'Heraclitus', age: 50 }; // Correct way to update
 - Pass-by-Value Semantics: Use getter functions to ensure functions access the current value of reactive state. For example:
   ```js
   function add(getA, getB) {
-  	return () => getA() + getB();
+    return () => getA() + getB()
   }
   let a = 1,
-  	b = 2;
+    b = 2
   let total = add(
-  	() => a,
-  	() => b
-  );
-  console.log(total());
+    () => a,
+    () => b,
+  )
+  console.log(total())
   ```
 - Do **NOT** assume that passing a reactive state variable directly maintains live updates; instead, pass getter functions.  
   _In Svelte 4, you often used stores with subscribe methods; now prefer getter functions with `$state` / `$derived` instead._
@@ -99,9 +102,10 @@ person = { name: 'Heraclitus', age: 50 }; // Correct way to update
 
 ```svelte
 <script>
-  let count = $state(0);
-  let doubled = $derived(count * 2);
+  let count = $state(0)
+  let doubled = $derived(count * 2)
 </script>
+
 <button onclick={() => count++}>{doubled}</button>
 ```
 
@@ -114,12 +118,12 @@ person = { name: 'Heraclitus', age: 50 }; // Correct way to update
 
 ```svelte
 <script>
-  let numbers = $state([1, 2, 3]);
+  let numbers = $state([1, 2, 3])
   let total = $derived.by(() => {
-    let sum = 0;
-    for (const n of numbers) sum += n;
-    return sum;
-  });
+    let sum = 0
+    for (const n of numbers) sum += n
+    return sum
+  })
 </script>
 ```
 
@@ -131,11 +135,15 @@ person = { name: 'Heraclitus', age: 50 }; // Correct way to update
 
 ```svelte
 <script>
-  let post = $props().post;
-  let likes = $derived(post.likes);
+  let post = $props().post
+  let likes = $derived(post.likes)
   async function onclick() {
-    likes += 1;
-    try { await post.like(); } catch { likes -= 1; }
+    likes += 1
+    try {
+      await post.like()
+    } catch {
+      likes -= 1
+    }
   }
 </script>
 ```
@@ -149,10 +157,10 @@ person = { name: 'Heraclitus', age: 50 }; // Correct way to update
 
 ```svelte
 <script>
-  let size = $state(50);
+  let size = $state(50)
   $effect(() => {
-    console.log('Size changed:', size);
-  });
+    console.log('Size changed:', size)
+  })
 </script>
 ```
 
@@ -165,11 +173,13 @@ person = { name: 'Heraclitus', age: 50 }; // Correct way to update
 
 ```svelte
 <script>
-  let count = $state(0);
+  let count = $state(0)
   $effect(() => {
-    const interval = setInterval(() => { count += 1; }, 1000);
-    return () => clearInterval(interval);
-  });
+    const interval = setInterval(() => {
+      count += 1
+    }, 1000)
+    return () => clearInterval(interval)
+  })
 </script>
 ```
 
@@ -181,10 +191,10 @@ person = { name: 'Heraclitus', age: 50 }; // Correct way to update
 
 ```svelte
 <script>
-  let div = $state();
+  let div = $state()
   $effect.pre(() => {
-    if (div) console.log('Running before DOM update');
-  });
+    if (div) console.log('Running before DOM update')
+  })
 </script>
 ```
 
@@ -197,8 +207,8 @@ person = { name: 'Heraclitus', age: 50 }; // Correct way to update
 ```svelte
 <script>
   $effect(() => {
-    console.log('Inside effect, tracking:', $effect.tracking());
-  });
+    console.log('Inside effect, tracking:', $effect.tracking())
+  })
 </script>
 ```
 
@@ -211,13 +221,13 @@ person = { name: 'Heraclitus', age: 50 }; // Correct way to update
 
 ```svelte
 <script>
-  let count = $state(0);
+  let count = $state(0)
   const cleanup = $effect.root(() => {
     $effect(() => {
-      console.log('Count is:', count);
-    });
-    return () => console.log('Root effect cleaned up');
-  });
+      console.log('Count is:', count)
+    })
+    return () => console.log('Root effect cleaned up')
+  })
 </script>
 ```
 
@@ -230,8 +240,9 @@ person = { name: 'Heraclitus', age: 50 }; // Correct way to update
 
 ```svelte
 <script>
-  let { adjective } = $props();
+  let { adjective } = $props()
 </script>
+
 <p>This component is {adjective}</p>
 ```
 
@@ -240,19 +251,19 @@ person = { name: 'Heraclitus', age: 50 }; // Correct way to update
 - Declare fallback values via destructuring. For example:
 
 ```js
-let { adjective = 'happy' } = $props();
+let { adjective = 'happy' } = $props()
 ```
 
 - Rename props to avoid reserved keywords. For example:
 
 ```js
-let { super: trouper } = $props();
+let { super: trouper } = $props()
 ```
 
 - Use rest syntax to collect all remaining props. For example:
 
 ```js
-let { a, b, ...others } = $props();
+let { a, b, ...others } = $props()
 ```
 
 #### $props.id()
@@ -261,8 +272,9 @@ let { a, b, ...others } = $props();
 
 ```svelte
 <script>
-  const uid = $props.id();
+  const uid = $props.id()
 </script>
+
 <label for="{uid}-firstname">First Name:</label>
 <input id="{uid}-firstname" type="text" />
 ```
@@ -275,9 +287,10 @@ let { a, b, ...others } = $props();
 
 ```svelte
 <script>
-  let { value = $bindable() } = $props();
+  let { value = $bindable() } = $props()
 </script>
-<input bind:value={value} />
+
+<input bind:value />
 ```
 
 - Do **NOT** overuse bindable props; instead, default to one-way data flow unless bi-directionality is truly needed.  
@@ -290,9 +303,10 @@ let { a, b, ...others } = $props();
 ```svelte
 <script>
   function dispatch(type) {
-    $host().dispatchEvent(new CustomEvent(type));
+    $host().dispatchEvent(new CustomEvent(type))
   }
 </script>
+
 <button onclick={() => dispatch('increment')}>Increment</button>
 ```
 
@@ -301,7 +315,6 @@ let { a, b, ...others } = $props();
 ### Using await in Svelte
 
 - **Where you can use await**
-
   - **Top-level `<script>`**: `await` directly in component script.
   - **Inside `$derived(...)`**.
   - **Inside markup**: inline `await` expressions.
@@ -328,12 +341,12 @@ let { a, b, ...others } = $props();
 ```js
 /// file: svelte.config.js
 export default {
-	compilerOptions: {
-		experimental: {
-			async: true
-		}
-	}
-};
+  compilerOptions: {
+    experimental: {
+      async: true,
+    },
+  },
+}
 ```
 
 - The flag is experimental in 5.36; it will be removed in Svelte 6.
@@ -343,11 +356,11 @@ export default {
 
 ```svelte
 <svelte:boundary>
-	<MyApp />
+  <MyApp />
 
-	{#snippet pending()}
-		<p>loading...</p>
-	{/snippet}
+  {#snippet pending()}
+    <p>loading...</p>
+  {/snippet}
 </svelte:boundary>
 ```
 
@@ -372,7 +385,12 @@ export default {
   ```svelte
   {#snippet figure(image)}
     <figure>
-      <img src={image.src} alt={image.caption} width={image.width} height={image.height} />
+      <img
+        src={image.src}
+        alt={image.caption}
+        width={image.width}
+        height={image.height}
+      />
       <figcaption>{image.caption}</figcaption>
     </figure>
   {/snippet}
@@ -391,15 +409,18 @@ export default {
 - **Lexical Visibility:**  
   Snippets can be declared anywhere and reference variables from their outer lexical scope, including script or block-level declarations.  
   _Example:_
+
   ```svelte
   <script>
-    let { message = "it's great to see you!" } = $props();
+    let { message = "it's great to see you!" } = $props()
   </script>
+
   {#snippet hello(name)}
     <p>hello {name}! {message}!</p>
   {/snippet}
   {@render hello('alice')}
   ```
+
 - **Scope Limitations:**  
   Snippets are only accessible within their lexical scope; siblings and child blocks share scope, but nested snippets cannot be rendered outside.  
   _Usage caution:_ Do **NOT** attempt to render a snippet outside its declared scope.
@@ -409,14 +430,16 @@ export default {
 - **As Props:**  
   Within a template, snippets are first-class values that can be passed to components as props.  
   _Example:_
+
   ```svelte
   <script>
-    import Table from './Table.svelte';
+    import Table from './Table.svelte'
     const fruits = [
       { name: 'apples', qty: 5, price: 2 },
-      { name: 'bananas', qty: 10, price: 1 }
-    ];
+      { name: 'bananas', qty: 10, price: 1 },
+    ]
   </script>
+
   {#snippet header()}
     <th>fruit</th>
     <th>qty</th>
@@ -431,19 +454,22 @@ export default {
   {/snippet}
   <Table data={fruits} {header} {row} />
   ```
+
 - **Slot-like Behavior:**  
   Snippets declared inside component tags become implicit props (akin to slots) for the component.  
   _Svelte 4 used slots for this, e.g. `<Component><p slot="x" let:y>hi {y}</p></Component>`; now use snippets instead, e.g. `<Component>{#snippet x(y)}<p>hi {y}</p>{/snippet}</Component>`._
 - **Content Fallback:**  
   Content not wrapped in a snippet declaration becomes the `children` snippet, rendering as fallback content.  
   _Example:_
+
   ```svelte
-  <!-- App.svelte -->
-  <Button>click me</Button>
   <!-- Button.svelte -->
   <script>
-    let { children } = $props();
+    let { children } = $props()
   </script>
+
+  <!-- App.svelte -->
+  <Button>click me</Button>
   <button>{@render children()}</button>
   ```
 
@@ -454,13 +480,13 @@ export default {
 
 ```svelte
 <script lang="ts">
-  import type { Snippet } from 'svelte';
+  import type { Snippet } from 'svelte'
   interface Props {
-    data: any[];
-    children: Snippet;
-    row: Snippet<[any]>;
+    data: any[]
+    children: Snippet
+    row: Snippet<[any]>
   }
-  let { data, children, row }: Props = $props();
+  let { data, children, row }: Props = $props()
 </script>
 ```
 
@@ -508,7 +534,8 @@ export default {
 
 ```svelte
 <script>
-  let { cool } = $props();
+  let { cool } = $props()
 </script>
+
 <div class={{ cool, lame: !cool }}>Content</div>
 ```

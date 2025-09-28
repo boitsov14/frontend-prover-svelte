@@ -27,11 +27,13 @@ update:
 
 # Fmt
 fmt:
-    # TODO
+    bun run fmt
 
 # Lint
 lint:
-    # TODO
+    just fmt
+    bun run lint
+    just check
 
 # Check svelte
 check:
@@ -43,7 +45,7 @@ check:
 
 # Development server
 dev:
-    bun --bun vite
+    bun run vite
 
 ###################################
 # Dependencies
@@ -56,7 +58,7 @@ add package:
 
 # Add package to dev dependencies
 add-dev package:
-    bun add {{ package }} --dev
+    bun add --dev {{ package }}
 
 # Check for outdated packages
 outdated:
@@ -80,8 +82,8 @@ knip:
 
 # Build
 build:
-    bun --bun vite build
+    bun run build
 
 # Preview
 preview:
-    bun --bun vite preview
+    bun run preview
