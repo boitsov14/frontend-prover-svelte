@@ -9,7 +9,6 @@
         "svelte": "latest",
         "svelte-check": "latest",
         "typescript": "latest",
-        "vite": "latest",
       },
     },
   },
