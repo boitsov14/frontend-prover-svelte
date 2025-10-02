@@ -49,5 +49,4 @@ JavaScript は使用しない．
 ## CSS
 
 原則として，pico.css の classless を使用する．
-スポット的に Bootstrap 5 を使用してもよい．
 原則として，カスタム CSS は使用しない．
