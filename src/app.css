@@ -1,5 +1,6 @@
 @import '@picocss/pico/css/pico.classless.min.css';
 @import '@fontsource/roboto/latin-400.css';
+@import 'bootstrap/dist/css/bootstrap-grid.min.css';
 
 :root {
   --pico-font-family: 'Roboto';

@@ -2,7 +2,8 @@
   import Counter from './lib/Counter.svelte'
 </script>
 
-<main>
+<main class="container">
   <h1>Vite + Svelte</h1>
+  <p>/\</p>
   <Counter />
 </main>

@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "@fontsource/roboto": "^5.2.8",
-    "@picocss/pico": "^2.1.1"
+    "@picocss/pico": "^2.1.1",
+    "bootstrap": "^5.3.8"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^5.4.1",
