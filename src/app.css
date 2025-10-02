@@ -1,3 +1,6 @@
+@import '@picocss/pico/css/pico.classless.min.css';
+@import '@fontsource/roboto/latin-400.css';
+
 :root {
   --pico-font-family: 'Roboto';
 }

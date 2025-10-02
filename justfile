@@ -55,10 +55,12 @@ dev:
 # To remove a package, run `bun remove package`
 add package:
     bun add {{ package }}
+    bun update --latest
 
 # Add package to dev dependencies
 add-dev package:
     bun add --dev {{ package }}
+    bun update --latest
 
 # Check for outdated packages
 outdated:
