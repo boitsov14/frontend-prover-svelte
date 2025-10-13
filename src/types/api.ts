@@ -47,9 +47,6 @@ const ApiResponseUnprovableSchema = z.object({
     sequent: z.string(),
     provability: z.literal(false),
     proofTime: z.number(),
-    bussproofsTime: z.number().optional(),
-    ebproofTime: z.number().optional(),
-    forestTime: z.number().optional(),
   }),
 })
 
