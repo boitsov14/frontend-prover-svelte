@@ -5,6 +5,7 @@
   ],
   "compilerOptions": {
     "moduleDetection": "force",
+    "baseUrl": "src",
     "types": [
       "svelte",
       "vite/client"
